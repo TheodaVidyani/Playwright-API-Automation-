@@ -11,7 +11,7 @@
     "target": "esnext",
     "types": ["node"],
 
-    // Path Aliases (using ./ without baseUrl)
+    // Path Aliases
     "paths": {
       "@client/*": ["./src/client/*"],
       "@fixtures/*": ["./src/fixtures/*"],
