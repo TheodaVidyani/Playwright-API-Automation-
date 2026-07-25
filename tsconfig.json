@@ -1,20 +1,25 @@
 {
-  // Visit https://aka.ms/tsconfig to read more about this file
   "compilerOptions": {
     // File Layout
     "rootDir": "./",
     "outDir": "./dist",
-  "esModuleInterop": true,
-    // Environment Settings
-    // See also https://aka.ms/tsconfig/module
-    "module": "nodenext",
-    "target": "esnext",
-    // For nodejs:
-    // "lib": ["esnext"],
-    "types": ["node","mocha"],
-    // and npm install -D @types/node
+    "esModuleInterop": true,
 
-    // Other Outputs
+    // Environment Settings
+    "module": "nodenext",
+    "moduleResolution": "nodenext",
+    "target": "esnext",
+    "types": ["node"],
+
+    // Path Aliases (using ./ without baseUrl)
+    "paths": {
+      "@client/*": ["./src/client/*"],
+      "@fixtures/*": ["./src/fixtures/*"],
+      "@config/*": ["./src/config/*"],
+      "@helper/*": ["./src/helper/*"]
+    },
+
+    // Outputs
     "sourceMap": true,
     "declaration": true,
     "declarationMap": true,
@@ -23,30 +28,12 @@
     "noUncheckedIndexedAccess": true,
     "exactOptionalPropertyTypes": true,
 
-    // Style Options
-    // "noImplicitReturns": true,
-    // "noImplicitOverride": true,
-    // "noUnusedLocals": true,
-    // "noUnusedParameters": true,
-    // "noFallthroughCasesInSwitch": true,
-    // "noPropertyAccessFromIndexSignature": true,
-
     // Recommended Options
     "strict": true,
     "jsx": "react-jsx",
-    //"verbatimModuleSyntax": true,
     "isolatedModules": true,
     "noUncheckedSideEffectImports": true,
     "moduleDetection": "force",
-    "skipLibCheck": true,
-     "baseUrl": ".",
- "paths": {
- "@client/*": ["src/client/*"],
- "@fixtures/*": ["src/fixtures/*"],
- "@config/*": ["src/config/*"],
- "@helper/*": ["src/helper/*"],
- 
- }
-
-}
+    "skipLibCheck": true
+  }
 }
