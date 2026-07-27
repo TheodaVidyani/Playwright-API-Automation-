@@ -16,7 +16,8 @@
       "@client/*": ["./src/client/*"],
       "@fixtures/*": ["./src/fixtures/*"],
       "@config/*": ["./src/config/*"],
-      "@helper/*": ["./src/helper/*"]
+      "@helper/*": ["./src/helper/*"],
+      "@data/*": ["./src/data/*"]
     },
 
     // Outputs

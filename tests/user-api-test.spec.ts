@@ -1,5 +1,5 @@
 import { test, expect } from '@fixtures/api-fixtures';
-import { createUserRequestData } from 'src/data/create-user-data';
+import { createUserRequestData } from '@data/create-user-data';
 
 test.describe('User API Tests', () => {
 
