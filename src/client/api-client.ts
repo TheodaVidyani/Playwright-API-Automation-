@@ -65,6 +65,32 @@ export class ApiClient {
 
   return res;
 }
+
+
+  // PUT request
+  async put(
+  url: string,
+  data: Record<string, unknown>,
+  options?: { auth?: boolean }
+) {
+  const headers: Record<string, string> = {
+    'Content-Type': 'application/json',
+  };
+
+  if (options?.auth) {
+    
+    headers['Authorization'] = `Bearer ${this.token}`;
+  }
+
+  const res = await this.context.put(url, { data, headers });
+
+  
+  if (!res.ok()) {
+    throw new Error(`PUT ${url} failed: ${res.status()} ${await res.text()}`);
+  }
+
+  return res;
+}
 } 
 
 
