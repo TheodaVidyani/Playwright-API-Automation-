@@ -1,4 +1,4 @@
-import { request, APIRequestContext } from 'playwright/test';
+import { request, APIRequestContext } from '@playwright/test';
 import { envConfig } from '@config/env-config';
 
 export class ApiClient {
@@ -15,82 +15,62 @@ export class ApiClient {
     });
   }
 
+  private getHeaders(options?: { auth?: boolean }): Record<string, string> {
+    const headers: Record<string, string> = {
+      'Content-Type': 'application/json',
+    };
 
+    // Defaults to true if options is not provided
+    const needsAuth = options?.auth ?? true;
+
+    if (needsAuth) {
+      if (!this.token) {
+        throw new Error('Authorization token is missing. Please call setToken() before sending authenticated requests.');
+      }
+      headers['Authorization'] = `Bearer ${this.token}`;
+    }
+
+    return headers;
+  }
 
   // GET request
-  async get(
-  url: string,
-  options?: { auth?: boolean }
-) {
-  const headers: Record<string, string> = {};
+  async get(url: string, options?: { auth?: boolean }) {
+    const headers = this.getHeaders(options);
+    const res = await this.context.get(url, { headers });
 
-  if (options?.auth) {
-   
-    //console.log(`Using auth token: ${this.token}`);
-    headers['Authorization'] = `Bearer ${this.token}`;
+    if (!res.ok()) {
+      throw new Error(`GET ${url} failed: ${res.status()} ${await res.text()}`);
+    }
+    return res;
   }
-
-  const res = await this.context.get(url, { headers });
-  //console.log(`GET ${url} - Status: ${res.status()}`);
-  //console.log(`GET ${url} - URL: ${await res.url()}`);
-
-  if (!res.ok()) {
-    throw new Error(`GET ${url} failed: ${res.status()} ${await res.text()}`);
-  }
-
-  return res;
-}
 
   // POST request
   async post(
-  url: string,
-  data: Record<string, unknown>,
-  options?: { auth?: boolean }
-) {
-  const headers: Record<string, string> = {
-    'Content-Type': 'application/json',
-  };
+    url: string,
+    data?: Record<string, unknown>,
+    options?: { auth?: boolean }
+  ) {
+    const headers = this.getHeaders(options);
+    const res = await this.context.post(url, { data, headers });
 
-  if (options?.auth) {
-    
-    headers['Authorization'] = `Bearer ${this.token}`;
+    if (!res.ok()) {
+      throw new Error(`POST ${url} failed: ${res.status()} ${await res.text()}`);
+    }
+    return res;
   }
-
-  const res = await this.context.post(url, { data, headers });
-
-  
-  if (!res.ok()) {
-    throw new Error(`POST ${url} failed: ${res.status()} ${await res.text()}`);
-  }
-
-  return res;
-}
-
 
   // PUT request
   async put(
-  url: string,
-  data: Record<string, unknown>,
-  options?: { auth?: boolean }
-) {
-  const headers: Record<string, string> = {
-    'Content-Type': 'application/json',
-  };
+    url: string,
+    data?: Record<string, unknown>,
+    options?: { auth?: boolean }
+  ) {
+    const headers = this.getHeaders(options);
+    const res = await this.context.put(url, { data, headers });
 
-  if (options?.auth) {
-    
-    headers['Authorization'] = `Bearer ${this.token}`;
+    if (!res.ok()) {
+      throw new Error(`PUT ${url} failed: ${res.status()} ${await res.text()}`);
+    }
+    return res;
   }
-
-  const res = await this.context.put(url, { data, headers });
-
-  
-  if (!res.ok()) {
-    throw new Error(`PUT ${url} failed: ${res.status()} ${await res.text()}`);
-  }
-
-  return res;
 }
-} 
-
-

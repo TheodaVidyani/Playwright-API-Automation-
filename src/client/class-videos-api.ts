@@ -1,4 +1,5 @@
 import { ApiClient } from "@client/api-client";
+const classVideosUrl: string = 'admin/class-videos';
 
 export class ClassVideosApi {
   constructor(private client: ApiClient) {}
@@ -8,16 +9,16 @@ export class ClassVideosApi {
   }
 
   async getClassVideos() {
-    return this.client.get('admin/class-videos', { auth: true });
+    return this.client.get(classVideosUrl, { auth: true });
   }
 
   async addClassVideos(requestData: Record<string, any>)
   {
-    return this.client.put('admin/class-videos', {auth: true})
+    return this.client.put(classVideosUrl, requestData, { auth: true, })
   }
 
   async editClassVideos(requestData: Record<string, any>)
   {
-    return this.client.put('admin/class-videos', {auth: true})
+    return this.client.put(classVideosUrl, requestData, {auth: true,})
   }
 }

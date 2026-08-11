@@ -1,7 +1,10 @@
+const timestampStr: string = Date.now().toString();
 
 export const addVideoRequestData = (overrides = {}) => ({
-    topic: "video1initial",
-    url: "https://abc.com",
+    videoKey: timestampStr,
+    topic: "video1Initial",
+    url: "https://firstvidurl.com",
+    grants: [],
 
   ...overrides
 });

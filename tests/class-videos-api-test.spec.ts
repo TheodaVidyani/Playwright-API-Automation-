@@ -4,7 +4,7 @@ import {editVideoTopicRequestData} from '@data/edit-video-data';
 
 test.describe('Class Videos API Tests', () => {
 
-  test('Clone from syllabus', async ({ classVideosApi }) => {
+  test('Get syllabus details', async ({ classVideosApi }) => {
     const res = await classVideosApi.getSyllabus();
 
     console.log(`Response status: ${res.status()}`);
@@ -12,7 +12,7 @@ test.describe('Class Videos API Tests', () => {
 
     expect(res.status()).toBe(200);
     const responseBody = await res.json();
-    //expect(responseBody.tree.title).toEqual('1. Quality Assurance Theory');
+    expect(responseBody.tree[0].title).toEqual('Physical Chemistry');
   });
 
 
@@ -21,8 +21,12 @@ test.describe('Class Videos API Tests', () => {
 
     console.log(`Response status: ${res.status()}`);
     console.log(`Response body: ${await res.text()}`);
+   
 
-    expect(res.status()).toBe(201);
+    expect(res.status()).toBe(200);
+    const responseBody = await res.json();
+    expect(responseBody.tree[0].video_urls[0].topic).toEqual('video1Initial');
+    expect(responseBody.tree[0].video_urls[0].url).toEqual('https://firstvidurl.com');
     
   });
 
@@ -31,8 +35,11 @@ test.describe('Class Videos API Tests', () => {
 
     console.log(`Response status: ${res.status()}`);
     console.log(`Response body: ${await res.text()}`);
-
-    expect(res.status()).toBe(201);
+    
+    expect(res.status()).toBe(200);
+    const responseBody = await res.json();
+    expect(responseBody.tree[0].video_urls[0].topic).toEqual('video1edited');
+    expect(responseBody.tree[0].video_urls[0].url).toEqual('firstvidurl');
     
   });
 
@@ -44,7 +51,7 @@ test.describe('Class Videos API Tests', () => {
 
     expect(res.status()).toBe(200);
     const responseBody = await res.json();
-    //expect(responseBody.tree.title).toEqual('1. Quality Assurance Theory');
+    expect(responseBody.tree[0].title).toEqual('Physical Chemistry');
   });
 
 });
