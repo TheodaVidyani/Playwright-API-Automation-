@@ -1,6 +1,7 @@
+const timestampStr: string = Date.now().toString();
 
 export const createUserRequestData = (overrides = {}) => ({
-    userId: "USER-0002",
+    userId: timestampStr,
     userLevelCode: "admin_user",
     username: "api-test-user",
     password: "123456",
