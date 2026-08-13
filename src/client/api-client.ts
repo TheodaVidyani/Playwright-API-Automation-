@@ -11,16 +11,22 @@ export class ApiClient {
 
   async init() {
     this.context = await request.newContext({
-      baseURL: envConfig.BASE_URL!
+      baseURL: envConfig.BASE_URL!,
     });
   }
 
-  private getHeaders(options?: { auth?: boolean }): Record<string, string> {
-    const headers: Record<string, string> = {
-      'Content-Type': 'application/json',
-    };
+  /**
+   * Helper to build request headers.
+   * Note: Omit application/json content-type when sending multipart payloads.
+   */
+  private getHeaders(options?: { auth?: boolean }, isMultipart = false): Record<string, string> {
+    const headers: Record<string, string> = {};
 
-    // Defaults to true if options is not provided
+    if (!isMultipart) {
+      headers['Content-Type'] = 'application/json';
+    }
+
+    // Defaults to true if options is omitted or options.auth is undefined
     const needsAuth = options?.auth ?? true;
 
     if (needsAuth) {
@@ -72,5 +78,31 @@ export class ApiClient {
       throw new Error(`PUT ${url} failed: ${res.status()} ${await res.text()}`);
     }
     return res;
+  }
+
+  // MULTIPART POST request
+  async postMultipart(
+    url: string,
+    multipart: Record<string, any>,
+    options?: { auth?: boolean }
+  ) {
+    // Pass isMultipart = true so 'Content-Type: application/json' isn't set
+    const headers = this.getHeaders(options, true);
+    const res = await this.context.post(url, {
+      multipart,
+      headers,
+    });
+
+    if (!res.ok()) {
+      throw new Error(`POST (Multipart) ${url} failed: ${res.status()} ${await res.text()}`);
+    }
+    return res;
+  }
+
+  // Optional: Clean up API request context resources
+  async dispose() {
+    if (this.context) {
+      await this.context.dispose();
+    }
   }
 }
