@@ -2,11 +2,13 @@ import { test as base, expect } from 'playwright/test';
 import { ApiClient } from '@client/api-client';
 import { UserApi } from '@client/user-api';
 import { getAuthToken } from '@helper/auth-helper';
+import { SyllabusApi } from '@client/syllabus-api';
 
 type MyFixtures = {
 
   apiClient: ApiClient;
   userApi: UserApi;
+  syllabusApi: SyllabusApi;
   
 };
 
@@ -26,7 +28,10 @@ export const test = base.extend<MyFixtures>({
     await use(new UserApi(apiClient));
   },
 
-  
+  syllabusApi: async ({ apiClient }, use) => {
+    await use(new SyllabusApi(apiClient));
+  },
+
 });
 
 export { expect };
