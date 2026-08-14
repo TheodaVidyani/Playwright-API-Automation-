@@ -3,15 +3,23 @@ import { ApiClient } from '@client/api-client';
 import { UserApi } from '@client/user-api';
 import { ChemistryMaterialApi } from '@client/chemistry-material-api';
 import { getAuthToken } from '@helper/auth-helper';
+feature/syllabus-api
+import { SyllabusApi } from '@client/syllabus-api';
 import { ClassVideosApi } from '@client/class-videos-api';
+master
 
 type MyFixtures = {
 
   apiClient: ApiClient;
   userApi: UserApi;
+ feature/syllabus-api
+  syllabusApi: SyllabusApi;
+  
+
   classVideosApi: ClassVideosApi;
   chemistryMaterialApi: ChemistryMaterialApi;
 
+ master
 };
 
 export const test = base.extend<MyFixtures>({
@@ -33,9 +41,16 @@ export const test = base.extend<MyFixtures>({
     await use(new UserApi(apiClient));
   },
 
+feature/syllabus-api
+  syllabusApi: async ({ apiClient }, use) => {
+    await use(new SyllabusApi(apiClient));
+  },
+
+
   chemistryMaterialApi: async ({ apiClient }, use) => {
     await use(new ChemistryMaterialApi(apiClient));
   },
+ master
 });
 
 export { expect };

@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "mocha -r ts-node/register \"tests/**/*.ts\""
+    "test": "npx playwright test",
+    "test:syllabus": "npx playwright test tests/syllabus-api.spec.ts"
   },
   "keywords": [],
   "author": "",
