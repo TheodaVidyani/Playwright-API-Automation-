@@ -1,8 +1,16 @@
 export const editVideoTopicRequestData = (overrides = {}) => ({
    
-    topic: "video1Edited",
-    url: "https://firstvidurl.com",
-    grants: [],
-
-  ...overrides
+    tree: [
+        {
+            nodeId: 85,
+            videos: [
+                {
+                    videoKey: "vid-mstwpgy4-eldrp560",
+                    topic: "video1Edited",
+                    url: "https://firstvidurl.com"
+                }
+            ]
+        }
+    ],
+    ...overrides
 });

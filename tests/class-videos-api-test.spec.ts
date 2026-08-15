@@ -1,6 +1,7 @@
 import { test, expect } from '@fixtures/api-fixtures';
 import { addVideoRequestData } from '@data/add-video-data'; 
 import {editVideoTopicRequestData} from '@data/edit-video-data';
+import {grantAccessRequestData} from '@data/grant-access-data';
 
 test.describe('Class Videos API Tests', () => {
 
@@ -54,4 +55,17 @@ test.describe('Class Videos API Tests', () => {
     expect(responseBody.tree[0].title).toEqual('Physical Chemistry');
   });
 
+  test('Grant access to a student for a class video', async ({ classVideosApi }) => {
+
+    const res = await classVideosApi.grantAccess(grantAccessRequestData());
+
+    console.log(`Response status: ${res.status()}`);
+    console.log(`Response body: ${await res.text()}`);
+   
+
+    expect(res.status()).toBe(200);
+    const responseBody = await res.json();
+    expect(responseBody.tree[0].video_urls[0].topic).toEqual('video1Initial');
+    expect(responseBody.tree[0].video_urls[0].url).toEqual('https://firstvidurl.com');
 });
+})
