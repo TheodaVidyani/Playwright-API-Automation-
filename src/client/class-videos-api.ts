@@ -21,4 +21,9 @@ export class ClassVideosApi {
   {
     return this.client.put(classVideosUrl, requestData, {auth: true,})
   }
+
+  async grantAccess(requestData: Record<string, any>)
+  {
+    return this.client.post('admin/class-videos/access', requestData, {auth: true,})
+  }
 }
